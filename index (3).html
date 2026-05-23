@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nitin Prk — The Universe Edition 🌌</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #FFD700;
+    --orange: #FF6B35;
+    --pink: #FF2D78;
+    --purple: #7B2FBE;
+    --cyan: #00F5FF;
+    --green: #00FF87;
+    --dark: #0A0A0F;
+    --card-bg: rgba(255,255,255,0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 20px; height: 20px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Stars BG */
+  .stars {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(123,47,190,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(255,45,120,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, rgba(0,245,255,0.08) 0%, transparent 50%),
+                var(--dark);
+    overflow: hidden;
+  }
+  .stars::before, .stars::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: 
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(2px 2px at 50% 10%, rgba(255,215,0,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 40%, rgba(0,245,255,0.8) 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 85%, rgba(255,45,120,0.9) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(2px 2px at 25% 30%, rgba(0,255,135,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 70%, rgba(255,255,255,0.6) 0%, transparent 100%);
+    background-size: 200px 200px, 300px 400px, 250px 350px, 400px 300px, 350px 250px,
+                     280px 420px, 320px 280px, 180px 360px, 260px 310px, 340px 290px;
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+  .stars::after { animation-delay: 2s; opacity: 0.7; }
+
+  @keyframes twinkle {
+    0% { opacity: 0.4; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.02); }
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+    text-align: center; padding: 2rem;
+  }
+
+  .gift-tag {
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    color: #fff;
+    font-family: 'Pacifico', cursive;
+    font-size: 0.85rem;
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    margin-bottom: 2rem;
+    display: inline-block;
+    animation: pulse-glow 2s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(255,45,120,0.5);
+  }
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255,45,120,0.5); }
+    50% { box-shadow: 0 0 40px rgba(255,107,53,0.8), 0 0 60px rgba(255,45,120,0.4); }
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(5rem, 15vw, 12rem);
+    line-height: 0.9;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--orange) 30%, var(--pink) 60%, var(--purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(255,215,0,0.4));
+    animation: name-float 3s ease-in-out infinite;
+    letter-spacing: 2px;
+  }
+  @keyframes name-float {
+    0%, 100% { transform: translateY(0px) rotate(-1deg); }
+    50% { transform: translateY(-15px) rotate(1deg); }
+  }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: rgba(255,255,255,0.7);
+    margin-top: 1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 2rem;
+    font-size: 0.75rem; color: var(--cyan);
+    letter-spacing: 3px; text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(-10px); opacity: 1; }
+  }
+
+  /* FLOATING EMOJIS */
+  .float-emojis {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .emoji {
+    position: absolute;
+    font-size: 2rem;
+    animation: float-up linear infinite;
+    opacity: 0;
+  }
+  @keyframes float-up {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative; z-index: 1;
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: 3px;
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  /* PHOTO GALLERY */
+  .gallery-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    position: relative; z-index: 1;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .photo-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+  }
+  .photo-card:hover {
+    transform: scale(1.05) rotate(-1deg);
+    border-color: var(--gold);
+    box-shadow: 0 20px 60px rgba(255,215,0,0.3);
+    z-index: 10;
+  }
+  .photo-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .photo-card:hover img { transform: scale(1.1); }
+
+  .photo-card .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+    display: flex; align-items: flex-end;
+    padding: 1rem;
+    font-family: 'Pacifico', cursive;
+    font-size: 0.9rem;
+    color: var(--gold);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .photo-card:hover .overlay { opacity: 1; }
+
+  .photo-card.tall { grid-row: span 1; aspect-ratio: 4/5; }
+  .photo-card.wide { grid-column: span 2; aspect-ratio: 16/9; }
+
+  /* Insta badge */
+  .insta-badge {
+    position: absolute; top: 1rem; right: 1rem;
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    border-radius: 10px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 5;
+  }
+
+  /* QUOTE SECTION */
+  .quotes-section {
+    max-width: 1000px;
+  }
+
+  .quote-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .quote-card:hover {
+    transform: translateX(10px);
+    box-shadow: -5px 0 30px rgba(0,245,255,0.2);
+  }
+  .quote-card::before {
+    content: '"';
+    position: absolute;
+    top: -1rem; left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.3;
+  }
+  .quote-card .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    line-height: 1.8;
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    position: relative;
+    z-index: 1;
+  }
+  .quote-card .quote-tag {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+  }
+
+  /* Quote color variants */
+  .qc-1 { border-left: 4px solid var(--cyan); }
+  .qc-2 { border-left: 4px solid var(--pink); }
+  .qc-3 { border-left: 4px solid var(--gold); }
+  .qc-4 { border-left: 4px solid var(--green); }
+  .qc-5 { border-left: 4px solid var(--orange); }
+  .qc-6 { border-left: 4px solid var(--purple); }
+
+  /* ABOUT CARDS / STATS */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    cursor: default;
+  }
+  .info-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(255,215,0,0.1);
+  }
+  .info-card .emoji-big { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+  .info-card h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .info-card p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+  }
+  .info-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,215,0,0.03) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* DREAMS SECTION */
+  .dreams-section { max-width: 1200px; }
+
+  .dream-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+  }
+  .dream-item::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px;
+  }
+  .dream-item:nth-child(1)::before { background: linear-gradient(to bottom, var(--gold), var(--orange)); }
+  .dream-item:nth-child(2)::before { background: linear-gradient(to bottom, var(--purple), var(--pink)); }
+  .dream-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  }
+  .dream-icon { font-size: 4rem; flex-shrink: 0; }
+  .dream-text h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, var(--gold), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dream-text p { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-top: 0.3rem; }
+
+  /* CARS SECTION */
+  .cars-section { max-width: 1200px; }
+  .cars-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .car-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+  }
+  .car-card:hover {
+    transform: scale(1.04) rotate(-0.5deg);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+  }
+  .car-emoji { font-size: 5rem; display: block; margin-bottom: 1rem;
+    animation: car-wobble 2s ease-in-out infinite; }
+  @keyframes car-wobble {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  .car-card h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+  }
+  .car-card p { font-size: 0.8rem; opacity: 0.6; margin-top: 0.5rem; }
+  .car-card.gwagon { border-top: 3px solid var(--gold); }
+  .car-card.defender { border-top: 3px solid var(--cyan); }
+  .car-glow-gold {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255,215,0,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .car-glow-cyan {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0,245,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* HOBBIES */
+  .hobbies-section { max-width: 1200px; }
+  .hobbies-flex {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .hobby-pill {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+  .hobby-pill:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(255,215,0,0.2);
+    border-color: var(--gold);
+  }
+  .hobby-pill span:first-child { font-size: 1.8rem; }
+
+  /* SUBJECTS */
+  .subjects-section { max-width: 1200px; }
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .subject-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+  .subject-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--pink);
+    box-shadow: 0 10px 30px rgba(255,45,120,0.15);
+  }
+  .subject-card .s-icon { font-size: 2.5rem; display: block; margin-bottom: 0.8rem; }
+  .subject-card h4 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: var(--pink);
+  }
+
+  /* INSTA CONNECT */
+  .insta-section {
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative; z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .insta-btn {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: white;
+    text-decoration: none;
+    padding: 1.2rem 3rem;
+    border-radius: 50px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 40px rgba(220,39,67,0.4);
+  }
+  .insta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 50px rgba(220,39,67,0.6);
+  }
+
+  /* FOOTER / GIFT TAG */
+  .footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .gift-from {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .gift-from span {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .footer-sub {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 1rem;
+  }
+
+  /* Divider */
+  .divider {
+    width: 80px; height: 3px;
+    background: linear-gradient(to right, var(--gold), var(--pink));
+    margin: 1rem 0 3rem 0;
+    border-radius: 50px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .photo-card.wide { grid-column: span 2; }
+    .cars-grid { grid-template-columns: 1fr; }
+    .dream-item { flex-direction: column; text-align: center; }
+  }
+
+  /* Shimmer animation for title */
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  .shimmer-text {
+    background: linear-gradient(90deg, var(--gold), var(--orange), var(--pink), var(--cyan), var(--gold));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Colorful tag chips */
+  .tag-chip {
+    display: inline-block;
+    padding: 0.3rem 0.9rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0.2rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Stars Background -->
+<div class="stars"></div>
+
+<!-- Floating Emojis -->
+<div class="float-emojis" id="floatEmojis"></div>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <div class="gift-tag">🎁 A Special Gift From Arpit Pareek</div>
+  <h1 class="hero-name">NITIN<br>PRK</h1>
+  <p class="hero-sub">The Universe Has Big Plans For You ✦</p>
+  <div class="scroll-hint">↓ scroll to explore ↓</div>
+</div>
+
+<!-- ========== PHOTOS ========== -->
+<div class="gallery-section">
+  <div class="section-title shimmer-text">Photos</div>
+  <div class="divider"></div>
+  <p style="color: rgba(255,255,255,0.5); font-size:0.8rem; margin-bottom: 2rem;">📸 Check Nitin's Instagram for all his amazing moments!</p>
+
+  <div class="gallery-grid">
+    <!-- Using stylized placeholder cards since Instagram blocks direct embedding -->
+    <div class="photo-card" style="background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); display:flex;align-items:center;justify-content:center;flex-direction:column; aspect-ratio:3/4;">
+      <span style="font-size:4rem;">⚽</span>
+      <p style="font-family:'Pacifico',cursive; color:var(--gold); margin-top:1rem; font-size:0.9rem;">The Football King</p>
+      <div class="overlay">Football vibes 🏃</div>
+      <span class="insta-badge">@nitin_prk</span>
+    </div>
+    <div class="photo-card" style="background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d); display:flex;align-items:center;justify-content:center;flex-direction:column; aspect-ratio:3/4;">
+      <span style="font-size:4rem;">♟️</span>
+      <p style="font-family:'Pacifico',cursive; color:#fff; margin-top:1rem; font-size:0.9rem;">Chess Mastermind</p>
+      <div class="overlay">Chess moves ♟️</div>
+      <span class="insta-badge">@nitin_prk</span>
+    </div>
+    <div class="photo-card" style="background: linear-gradient(135deg, #c94b4b, #4b134f); display:flex;align-items:center;justify-content:center;flex-direction:column; aspect-ratio:3/4;">
+      <span style="font-size:4rem;">🌍</span>
+      <p style="font-family:'Pacifico',cursive; color:#fff; margin-top:1rem; font-size:0.9rem;">The Explorer</p>
+      <div class="overlay">Wanderlust 🌟</div>
+      <span class="insta-badge">@nitin_prk</span>
+    </div>
+    <div class="photo-card wide" style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); display:flex;align-items:center;justify-content:center;flex-direction:column; aspect-ratio:16/9;">
+      <span style="font-size:5rem;">🍳</span>
+      <p style="font-family:'Pacifico',cursive; color:var(--gold); margin-top:1rem;">Chef in the making!</p>
+      <div class="overlay">Gordon Ramsay who? 🔥</div>
+      <span class="insta-badge">@nitin_prk</span>
+    </div>
+    <div class="photo-card" style="background: linear-gradient(135deg, #134e5e, #71b280); display:flex;align-items:center;justify-content:center;flex-direction:column; aspect-ratio:3/4;">
+      <span style="font-size:4rem;">🚗</span>
+      <p style="font-family:'Pacifico',cursive; color:#fff; margin-top:1rem; font-size:0.9rem;">The Driver</p>
+      <div class="overlay">Roads are his canvas 🛣️</div>
+      <span class="insta-badge">@nitin_prk</span>
+    </div>
+    <div class="photo-card" style="background: linear-gradient(135deg, #373b44, #4286f4); display:flex;align-items:center;justify-content:center;flex-direction:column; aspect-ratio:3/4;">
+      <span style="font-size:4rem;">⚖️</span>
+      <p style="font-family:'Pacifico',cursive; color:#fff; margin-top:1rem; font-size:0.9rem;">Future Lawyer</p>
+      <div class="overlay">Justice incoming 🦁</div>
+      <span class="insta-badge">@nitin_prk</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== QUOTES ========== -->
+<section class="quotes-section reveal">
+  <div class="section-title shimmer-text">Words of Fire</div>
+  <div class="divider"></div>
+  <p style="color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 3rem; text-transform: uppercase;">— Wisdom curated specially for Nitin —</p>
+
+  <div class="quote-card qc-1 reveal">
+    <p class="quote-text">The greatest fear in the world is the opinion of others. And the moment you are unafraid of the crowd, you are no longer a sheep — you become a lion.</p>
+    <p class="quote-tag">✦ The Journey Within</p>
+  </div>
+  <div class="quote-card qc-2 reveal">
+    <p class="quote-text">Don't seek, don't search, don't ask, don't knock, don't demand — relax. If you relax, it comes. If you relax, it is there. If you relax, you start vibrating with it.</p>
+    <p class="quote-tag">✦ On Peace</p>
+  </div>
+  <div class="quote-card qc-3 reveal">
+    <p class="quote-text">Be — don't try to become. Within these two words is the whole journey of man's growth. Just be. That which you are, you are. You don't have to prove anything, you don't have to show anything.</p>
+    <p class="quote-tag">✦ On Existence</p>
+  </div>
+  <div class="quote-card qc-4 reveal">
+    <p class="quote-text">I live my life based on two principles: one, I live only in the moment, and two, I follow my heart and instincts. Nothing else matters.</p>
+    <p class="quote-tag">✦ On Living</p>
+  </div>
+  <div class="quote-card qc-5 reveal">
+    <p class="quote-text">A man who is 100% committed to his dream — the whole existence conspires to help him. Stars align, doors open, the universe bends to his will.</p>
+    <p class="quote-tag">✦ On Dreams</p>
+  </div>
+  <div class="quote-card qc-6 reveal">
+    <p class="quote-text">The real question is not whether life exists after death. The real question is whether you are fully alive before death. Live it. Burn it. Be it.</p>
+    <p class="quote-tag">✦ On Aliveness</p>
+  </div>
+</section>
+
+<!-- ========== DREAMS ========== -->
+<section class="dreams-section reveal">
+  <div class="section-title shimmer-text">Dream Big</div>
+  <div class="divider"></div>
+
+  <div class="dream-item reveal">
+    <div class="dream-icon">🏛️</div>
+    <div class="dream-text">
+      <h3>RAS Officer</h3>
+      <p>Serving the people of Rajasthan, building a better tomorrow — one decision at a time.</p>
+    </div>
+  </div>
+
+  <div class="dream-item reveal">
+    <div class="dream-icon">⚖️</div>
+    <div class="dream-text">
+      <h3>Lawyer</h3>
+      <p>Standing for justice, speaking for those who cannot — the courtroom awaits its king.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== INFO CARDS ========== -->
+<section class="hobbies-section reveal">
+  <div class="section-title shimmer-text">Who He Is</div>
+  <div class="divider"></div>
+  <div class="cards-grid">
+    <div class="info-card reveal">
+      <span class="emoji-big">⚽</span>
+      <h3>Football</h3>
+      <p>The pitch is his kingdom. Goals aren't just scored on the field.</p>
+    </div>
+    <div class="info-card reveal">
+      <span class="emoji-big">♟️</span>
+      <h3>Chess</h3>
+      <p>Ten moves ahead. The grandmaster mindset never sleeps.</p>
+    </div>
+    <div class="info-card reveal">
+      <span class="emoji-big">🌍</span>
+      <h3>Travelling</h3>
+      <p>Every road is an invitation. Every destination is a story waiting to happen.</p>
+    </div>
+    <div class="info-card reveal">
+      <span class="emoji-big">🚗</span>
+      <h3>Driving</h3>
+      <p>Behind the wheel is where freedom lives. No map needed.</p>
+    </div>
+    <div class="info-card reveal">
+      <span class="emoji-big">🍳</span>
+      <h3>Cooking</h3>
+      <p>A chef who creates magic in the kitchen — every plate is an art form.</p>
+    </div>
+    <div class="info-card reveal">
+      <span class="emoji-big">📚</span>
+      <h3>Learner</h3>
+      <p>SST • Humanities • Political Science — the world through knowledge.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SUBJECTS ========== -->
+<section class="subjects-section reveal">
+  <div class="section-title shimmer-text">Fav Subjects</div>
+  <div class="divider"></div>
+  <div class="subjects-grid">
+    <div class="subject-card reveal">
+      <span class="s-icon">🗺️</span>
+      <h4>Social Studies</h4>
+    </div>
+    <div class="subject-card reveal">
+      <span class="s-icon">📰</span>
+      <h4>Humanities</h4>
+    </div>
+    <div class="subject-card reveal">
+      <span class="s-icon">🏛️</span>
+      <h4>Political Science</h4>
+    </div>
+    <div class="subject-card reveal">
+      <span class="s-icon">🌐</span>
+      <h4>Social Science</h4>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DREAM CARS ========== -->
+<section class="cars-section reveal">
+  <div class="section-title shimmer-text">Dream Garage</div>
+  <div class="divider"></div>
+  <p style="color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-bottom: 2rem;">Cartoon-space vibes 🚀 — because these aren't just cars, they're icons.</p>
+  <div class="cars-grid">
+    <div class="car-card gwagon reveal">
+      <div class="car-glow-gold"></div>
+      <span class="car-emoji">🚙</span>
+      <h3 style="font-family:'Bebas Neue',cursive; font-size:2.5rem; letter-spacing:3px; background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">G-Wagon</h3>
+      <p>The beast in urban streets. Bold. Unstoppable. Just like Nitin.</p>
+      <div style="margin-top: 1.5rem; display:flex; justify-content:center; gap:0.5rem; flex-wrap:wrap;">
+        <span class="tag-chip" style="background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid var(--gold);">ICONIC</span>
+        <span class="tag-chip" style="background: rgba(255,107,53,0.15); color: var(--orange); border: 1px solid var(--orange);">POWERFUL</span>
+        <span class="tag-chip" style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);">LEGEND</span>
+      </div>
+    </div>
+    <div class="car-card defender reveal">
+      <div class="car-glow-cyan"></div>
+      <span class="car-emoji">🛻</span>
+      <h3 style="font-family:'Bebas Neue',cursive; font-size:2.5rem; letter-spacing:3px; background: linear-gradient(135deg, var(--cyan), var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Defender</h3>
+      <p>Born for adventure. Mountain roads, desert dunes — it handles it all.</p>
+      <div style="margin-top: 1.5rem; display:flex; justify-content:center; gap:0.5rem; flex-wrap:wrap;">
+        <span class="tag-chip" style="background: rgba(0,245,255,0.15); color: var(--cyan); border: 1px solid var(--cyan);">ADVENTURE</span>
+        <span class="tag-chip" style="background: rgba(123,47,190,0.15); color: var(--purple); border: 1px solid var(--purple);">RUGGED</span>
+        <span class="tag-chip" style="background: rgba(0,255,135,0.1); color: var(--green); border: 1px solid var(--green);">WILD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== INSTA BUTTON ========== -->
+<div class="insta-section reveal">
+  <p style="font-family:'Pacifico',cursive; font-size:1.2rem; margin-bottom: 1.5rem; color: rgba(255,255,255,0.7);">Follow Nitin's world ✨</p>
+  <a class="insta-btn" href="https://www.instagram.com/p/DRrOXcBicb2/" target="_blank">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    View on Instagram
+  </a>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <p class="gift-from">Gifted with ❤️ by <span>Arpit Pareek</span></p>
+  <p style="font-family:'Space Mono',monospace; font-size:0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem;">To my dear friend Nitin Prk — may the universe always be in your favour 🌌</p>
+  <p class="footer-sub">Made with stars, code & friendship ✦ 2025</p>
+</footer>
+
+<!-- GITHUB PAGES DEPLOY INSTRUCTIONS (hidden) -->
+<!-- 
+  TO DEPLOY ON GITHUB PAGES:
+  1. Create a GitHub repo (e.g. nitin-prk)
+  2. Upload this index.html to the repo root
+  3. Go to Settings > Pages > Branch: main, Folder: / (root)
+  4. Save — your site will be live at https://[your-username].github.io/nitin-prk/
+-->
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const dot = document.getElementById('cursorDot');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX - 10 + 'px';
+    cursor.style.top = e.clientY - 10 + 'px';
+    dot.style.left = e.clientX - 3 + 'px';
+    dot.style.top = e.clientY - 3 + 'px';
+  });
+
+  // Floating emojis
+  const emojis = ['⚽','♟️','🌍','🍳','🚗','⚖️','🏛️','🌟','✨','🔥','💫','🎯','🛣️','🏆','💡'];
+  const container = document.getElementById('floatEmojis');
+  for (let i = 0; i < 25; i++) {
+    const el = document.createElement('div');
+    el.className = 'emoji';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (8 + Math.random() * 15) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    el.style.fontSize = (1 + Math.random() * 2) + 'rem';
+    container.appendChild(el);
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
